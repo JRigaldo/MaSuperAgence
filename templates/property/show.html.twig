@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block title property.title %}
+{% block body %}
+    <div class="container py-4">
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <div class="container-fluid py-5">
+                <div class="row">
+                    <div class="col-8">
+
+                    </div>
+                    <div class="col-4">
+                        <h1>{{ property.title }}</h1>
+                        <h2>{{ property.rooms }} pièces - {{ property.surface }} m2</h2>
+                        <div class="ext-primary" style="font-size: 3rem; font-weight: bold">{{ property.formatedPrice }} CHF</div>
+                        <a href="#" class="btn btn-primary">Contacter l'agence</a>
+                    </div>
+                </div>
+                <p>{{ property.description | nl2br }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="container-md mt-40">
+        <div class="row">
+            <div class="col-8">
+                <h2>Caractéristiques</h2>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Surface habitable</td>
+                        <td>{{ property.surface }} m2</td>
+                    </tr>
+                    <tr>
+                        <td>Pièces</td>
+                        <td>{{ property. rooms }}</td>
+                    </tr>
+                    <tr>
+                        <td>Chambres</td>
+                        <td>{{ property.bedrooms }}</td>
+                    </tr>
+                    <tr>
+                        <td>Étage</td>
+                        <td>{{ property.floor }}</td>
+                    </tr>
+                    <tr>
+                        <td>Chauffage</td>
+                        <td>{{ property.heatType }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-4">
+                <h2>Spécificités</h2>
+            </div>
+        </div>
+    </div>
+{% endblock %}
