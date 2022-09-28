@@ -3,6 +3,20 @@
 {% block title 'Les propriétés' %}
 
 {% block body %}
-<h1>Ma propriete</h1>
+
+    <div class="container mt-4">
+        <h1 class="mb-4 text-center">Voir tous les biens</h1>
+        <div class="row">
+            {% for property in properties %}
+                <div class="col-4">
+                    {% include('property/_property.html.twig') %}
+                </div>
+            {% endfor %}
+                <ul class="pagination justify-content-center">
+                    {{ knp_pagination_render(properties) }}
+                </ul>
+            </nav>
+        </div>
+    </div>
 
 {% endblock %}

@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Property;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,10 +24,13 @@ class PropertyController extends AbstractController {
      * @return Response
      */
     #[Route('/biens', name: 'property.index')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(ManagerRegistry $doctrine, PaginatorInterface $paginator, Request $request): Response
     {
-        $properties = $this->repository->findLatest();
-
+        $properties = $paginator->paginate(
+            $this->repository->findAllVisibleQuery(),
+            $request->query->getInt('page', 1),
+            12
+        );
         /**
          * Récupère les propriétés et change sold à true en base de données
          */
