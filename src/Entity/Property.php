@@ -6,7 +6,10 @@ use App\Repository\PropertyRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity('title')]
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 class Property
 {
@@ -21,12 +24,15 @@ class Property
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Length(min:5, max:255)]
+    #[Assert\Title]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[Assert\Range(min: 10, max: 400, notInRangeMessage: 'You must be between {{ min }}cm and {{ max }}cm tall to enter')]
     #[ORM\Column]
     private ?int $surface = null;
 
@@ -48,6 +54,7 @@ class Property
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
+    #[Assert\Regex('/^[0-9]{4}$/')]
     #[ORM\Column(length: 255)]
     private ?string $postal_code = null;
 

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Se connecter' %}
+
+{% block body %}
+    <div class="text-center" style="margin-top: 100px;">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <div class="form-signin w-100 m-auto" style="max-width: 300px;">
+            <form method="post" action="{{ path('app_login') }}">
+                <h1 class="h3 mb-3 fw-normal">Connexion</h1>
+                <div class="form-floating mt-2">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="Nom d'utilisateur" name="_username" value="{{ last_username }}">
+                    <label for="floatingInput">Nom d'utilisateur</label>
+                </div>
+                <div class="form-floating mt-2">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="_password">
+                    <label for="floatingPassword">Mot de pass</label>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <button class="w-100 btn btn-lg btn-primary mt-2" type="submit">Se connecter</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
