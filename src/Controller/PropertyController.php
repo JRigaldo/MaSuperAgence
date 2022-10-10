@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Property;
+use App\Entity\PropertySearch;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\PropertySearchType;
 
 class PropertyController extends AbstractController {
 
@@ -26,11 +28,20 @@ class PropertyController extends AbstractController {
     #[Route('/biens', name: 'property.index')]
     public function index(ManagerRegistry $doctrine, PaginatorInterface $paginator, Request $request): Response
     {
+
+        $propertySearch = new PropertySearch();
+        $form = $this->createForm(PropertySearchType::class, $propertySearch);
+
+        $form->handleRequest($request);
+
+        dump($form);
+
         $properties = $paginator->paginate(
-            $this->repository->findAllVisibleQuery(),
+            $this->repository->findAllVisibleQuery($propertySearch),
             $request->query->getInt('page', 1),
             12
         );
+
         /**
          * Récupère les propriétés et change sold à true en base de données
          */
@@ -77,7 +88,8 @@ class PropertyController extends AbstractController {
 
         return $this->render('property/index.html.twig', [
             'current_menu' => 'active_page',
-            'properties' => $properties
+            'properties' => $properties,
+            'form' => $form->createView()
         ]);
     }
 
@@ -95,6 +107,7 @@ class PropertyController extends AbstractController {
                 'slug' => $property->getSlug()
             ], 301);
         }
+
         return $this->render('property/show.html.twig', [
             'property' => $property,
             'current_menu' => 'active_page'

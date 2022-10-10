@@ -1,10 +1,31 @@
 {% extends 'base.html.twig' %}
 {% block title 'Page d\'accueil' %}
 {% block body %}
+    <nav class="navbar">
+        <div class="col align-self-center mt-4">
+            <form class="" role="search">
+                <div class="row">
+                    <!--div class="col-md-3 offset-md-2">
+                        <input class="form-control" style="display: inline-block;" type="search" placeholder="Search"
+                               aria-label="Search">
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" style="display: inline-block;" type="search" placeholder="Search"
+                               aria-label="Search">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-outline-success" style="display: inline-block;" type="submit">Search
+                        </button>
+                    </div-->
+                </div>
+            </form>
+        </div>
+    </nav>
     <div class="mt-5 p-4 p-md-5 mb-4 rounded text-bg-dark">
         <div class="col-md-6 px-0">
             <h1 class="display-4 fst-italic">Ma Super Agence</h1>
-            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
+            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and
+                efficiently about what’s most interesting in this post’s contents.</p>
             <p class="lead mb-0"><a href="#" class="text-white fw-bold">Continue reading...</a></p>
         </div>
     </div>
@@ -15,9 +36,11 @@
                 <div class="col">
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
-                            <a href="{{ path('property.show', {id: property.id, slug: property.slug}) }}"><h5 class="card-title">{{ property.title }}</h5></a>
+                            <a href="{{ path('property.show', {id: property.id, slug: property.slug}) }}"><h5
+                                        class="card-title">{{ property.title }}</h5></a>
                             <p class="card-text">{{ property.city }} ({{ property.postalCode }})</p>
-                            <div class="text-primary" style="font-weight: bold; font-size: 2rem;">{{ property.formatedPrice}}</div>
+                            <div class="text-primary"
+                                 style="font-weight: bold; font-size: 2rem;">{{ property.formatedPrice }}</div>
                         </div>
                     </div>
                 </div>

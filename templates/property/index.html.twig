@@ -5,7 +5,27 @@
 {% block body %}
 
     <div class="container mt-4">
-        <h1 class="mb-4 text-center">Voir tous les biens</h1>
+        <nav class="navbar bg-dark">
+            <div class="col align-self-center mt-4 mb-4">
+                <form class="" role="search">
+                    <div class="row">
+                        {{ form_start(form) }}
+                        <div class="col-md-3 offset-md-3">
+                            {{ form_row(form.minSurface) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(form.maxPrice) }}
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-success" type="submit">Rechercher
+                            </button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </form>
+            </div>
+        </nav>
+        <h1 class="mt-4 mb-4 text-center">Voir tous les biens</h1>
         <div class="row">
             {% for property in properties %}
                 <div class="col-4">

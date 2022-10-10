@@ -17,6 +17,7 @@ class HomeController extends AbstractController{
     #[Route('/', name: 'home')]
     public function index(ManagerRegistry $doctrine): Response
     {
+
         $properties = $doctrine->getRepository(Property::class)->findLatest();
         return $this->render('pages/home.html.twig', [
             'properties' => $properties
