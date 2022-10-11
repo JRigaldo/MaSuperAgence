@@ -1,0 +1,22 @@
+{
+  "name": "masuperagence",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.1",
+    "jquery": "^3.6.1"
+  },
+  "dependencies": {
+    "select2-bootstrap-5-theme": "^1.3.0"
+  }
+}

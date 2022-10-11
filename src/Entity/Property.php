@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PropertyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
@@ -54,7 +56,7 @@ class Property
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Assert\Regex('/^[0-9]{4}$/')]
+    #[Assert\Regex('/^[0-9]{5}$/')]
     #[ORM\Column(length: 255)]
     private ?string $postal_code = null;
 
@@ -67,11 +69,15 @@ class Property
     #[ORM\Column]
     private ?int $rooms = null;
 
+    #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'properties')]
+    private Collection $options;
+
     //#[ORM\Column]
     //private ?string $slug = null;
 
     public function __construct(){
         $this->created_at = new \DateTimeImmutable();
+        $this->options = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -246,6 +252,33 @@ class Property
     public function setRooms(int $rooms): self
     {
         $this->rooms = $rooms;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Option>
+     */
+    public function getOptions(): Collection
+    {
+        return $this->options;
+    }
+
+    public function addOption(Option $option): self
+    {
+        if (!$this->options->contains($option)) {
+            $this->options->add($option);
+            $option->addProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOption(Option $option): self
+    {
+        if ($this->options->removeElement($option)) {
+            $option->removeProperty($this);
+        }
 
         return $this;
     }
