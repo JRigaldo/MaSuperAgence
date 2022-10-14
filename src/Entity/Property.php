@@ -10,8 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[UniqueEntity('title')]
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 class Property
 {
@@ -71,6 +75,15 @@ class Property
 
     #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'properties')]
     private Collection $options;
+
+    #[Vich\UploadableField(mapping: 'property_images', fileNameProperty: 'imageName')]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $imageName = null;
+
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $updatedAt = null;
 
     //#[ORM\Column]
     //private ?string $slug = null;
@@ -281,5 +294,29 @@ class Property
         }
 
         return $this;
+    }
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $this->imageFile && $this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
     }
 }

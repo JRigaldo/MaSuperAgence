@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PropertyType extends AbstractType
 {
@@ -33,6 +34,13 @@ class PropertyType extends AbstractType
                 'class' => Option::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+            ])
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'label' => 'Image de la propriété',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ]
             ])
         ;
     }

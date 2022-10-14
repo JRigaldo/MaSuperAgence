@@ -17,7 +17,7 @@ class PropertySearch {
     /**
      * @var int|null
      */
-    private $maxPrice;
+    private ?int $maxPrice = null;
 
     /**
      * @var ArrayCollection
