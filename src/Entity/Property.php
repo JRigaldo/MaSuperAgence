@@ -10,12 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[UniqueEntity('title')]
 #[Vich\Uploadable]
+//#[UniqueEntity('title')]
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 class Property
 {
@@ -31,7 +31,7 @@ class Property
     private ?int $id = null;
 
     #[Assert\Length(min:5, max:255)]
-    #[Assert\Title]
+    //#[Assert\Title]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
