@@ -15,7 +15,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 
 #[Vich\Uploadable]
-//#[UniqueEntity('title')]
+#[UniqueEntity(
+    'title',
+    message: 'Ce titre existe déjà'
+)]
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 class Property
 {
@@ -31,8 +34,7 @@ class Property
     private ?int $id = null;
 
     #[Assert\Length(min:5, max:255)]
-    //#[Assert\Title]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: 'true')]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -76,6 +78,7 @@ class Property
     #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'properties')]
     private Collection $options;
 
+    #[Assert\File(mimeTypes: "image/jpeg")]
     #[Vich\UploadableField(mapping: 'property_images', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
