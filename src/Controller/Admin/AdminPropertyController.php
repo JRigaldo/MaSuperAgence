@@ -8,12 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\PropertyType;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 /**
  * @ORM\Embeddable
@@ -79,15 +77,12 @@ class AdminPropertyController extends AbstractController {
      * @return Response
      */
     #[Route('/admin/property/{id}', name: 'admin.property.edit', methods: ['GET', 'POST'])]
-    public function edit(Property $property, Request $request, CacheManager $cacheManager, UploaderHelper $uplaoderHelper ): Response
+    public function edit(Property $property, Request $request): Response
     {
         $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            if($property->getImageFile() instanceof UploadedFile){
-                $cacheManager->remove($uplaoderHelper->asset($property, 'imageFile'));
-            }
             $this->entityManager->flush();
             $this->addFlash('success', 'Bien modifé avec succès');
             return $this->redirectToRoute('admin.property.index');
@@ -107,11 +102,12 @@ class AdminPropertyController extends AbstractController {
     #[Route('/admin/delete/{id}', name: 'admin.property.delete', methods: ['GET', 'POST'])]
     public function delete(Property $property, Request $request)
     {
-        if($this->isCsrfTokenValid('delete' . $property->getId(), $request->request->get('_token'))){
+        /*if($this->isCsrfTokenValid('delete' . $property->getId(), $request->request->get('_token'))){*/
+
             $this->entityManager->remove($property);
             $this->entityManager->flush();
             $this->addFlash('error', 'Bien supprimé avec succès');
-        }
+        /*}*/
         return $this->redirectToRoute('admin.property.index');
     }
 

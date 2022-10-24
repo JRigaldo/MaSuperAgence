@@ -34,3 +34,7 @@
 	/translations/
     .gitignore
 	yarn.lock
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
