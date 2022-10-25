@@ -1,6 +1,8 @@
 <div class="card mb-4" style="width: 18rem;">
     {% if property.imageName %}
     <img class="card-img-top" src="{{ vich_uploader_asset(property, 'imageFile') | imagine_filter('miniatures') }}" alt="{{ property.title }}">
+    {% else %}
+        <img class="card-img-top" src="{{ '/images/property_images/default-miniature.jpg' | imagine_filter('miniatures')}}" alt="{{ property.title }}">
     {% endif %}
     <div class="card-body">
         <a href="{{ path('property.show', {id: property.id, slug: property.slug}) }}"><h5 class="card-title">{{ property.title }}</h5></a>

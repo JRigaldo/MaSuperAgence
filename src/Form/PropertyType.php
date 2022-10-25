@@ -32,6 +32,7 @@ class PropertyType extends AbstractType
             ->add('rooms')
             ->add('options', EntityType::class, [
                 'class' => Option::class,
+                'required' => false,
                 'choice_label' => 'name',
                 'multiple' => true,
             ])
