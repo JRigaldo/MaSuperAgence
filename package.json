@@ -1,7 +1,6 @@
 {
   "name": "masuperagence",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -17,6 +16,17 @@
     "jquery": "^3.6.1"
   },
   "dependencies": {
+    "mjml": "^4.13.0",
     "select2-bootstrap-5-theme": "^1.3.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JRigaldo/MaSuperAgence.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/JRigaldo/MaSuperAgence/issues"
+  },
+  "homepage": "https://github.com/JRigaldo/MaSuperAgence#readme",
+  "description": ""
 }

@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Mail;
 use App\Entity\Property;
 use App\Entity\PropertySearch;
+use App\Form\MailType;
+use App\Service\SendMailService;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,7 +100,7 @@ class PropertyController extends AbstractController {
      * @return Response
      */
     #[Route('/biens/{slug}-{id}', name: 'property.show', requirements: ["slug" => "[a-z0-9\-]*"])]
-    public function show(Property $property, string $slug): Response
+    public function show(Property $property, string $slug, Request $request, SendMailService $sendMailService): Response
     {
         if($property->getSlug() !== $slug){
             return $this->redirectToRoute('property.show', [
@@ -106,9 +109,29 @@ class PropertyController extends AbstractController {
             ], 301);
         }
 
+        $mail = new Mail();
+        $mail->setProperty($property);
+        $form = $this->createForm(MailType::class, $mail);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $mailIsSend = $sendMailService->notify($mail);
+            if($mailIsSend){
+                $this->addFlash('success', 'Votre email a bien été envoyé');
+            }else{
+                $this->addFlash('error', 'Une erreur est survenue');
+            }
+
+            return $this->redirectToRoute('property.show', [
+                'id' => $property->getId(),
+                'slug' => $property->getSlug()
+            ]);
+
+        }
+
         return $this->render('property/show.html.twig', [
             'property' => $property,
-            'current_menu' => 'active_page'
+            'current_menu' => 'active_page',
+            'form' => $form->CreateView()
         ]);
     }
 
